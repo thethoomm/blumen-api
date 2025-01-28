@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "API da plataforma Blumen",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
-    "build": "tsc",
-    "start": "node --env-file=.env dist/server.js",
+    "build": "tsc && cp .env ./dist/.env",
+    "start": "node --env-file=.env dist/src/server.js",
     "dev": "tsx watch --env-file=.env src/server.ts"
   },
   "author": "",

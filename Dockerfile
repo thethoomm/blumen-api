@@ -5,5 +5,6 @@ RUN npm install
 COPY . .
 COPY .env .
 RUN npm run build
+RUN npm run db:push
 CMD ["npm", "start"]
 EXPOSE 3000

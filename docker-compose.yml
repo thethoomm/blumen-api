@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "blumen"
+      POSTGRES_PASSWORD: "docker"
+    volumes:
+      - postgres:/var/lib/postgresql
+  
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+  
+volumes:
+  postgres:
+    driver: local

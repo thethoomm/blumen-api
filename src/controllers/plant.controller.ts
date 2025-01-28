@@ -47,7 +47,8 @@ export class PlantController {
 
   async getPlant(req: Request, res: Response) {
     try {
-      const id = z.number().parse(req.params.id);
+      const idSchema = z.number().positive().int();
+      const id = idSchema.parse(Number(req.params.id));
 
       const plant = await plantService.findPlantById(id);
 

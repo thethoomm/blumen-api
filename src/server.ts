@@ -5,19 +5,22 @@ import { plantTypeRoute } from "./routes/plant-type.route";
 import { env } from "../env";
 
 const app = express();
+const PORT = env.PORT || 3000;
 
 app.use(express.json());
 app.use(
   cors({
     origin: "*",
     methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type", "Authorization"]
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
+app.get("/", (req, res) => {
+  res.send("Blumen API Online");
+});
 app.use("/plants", plantRoute);
 app.use("/plant-types", plantTypeRoute);
 
-app.listen(env.PORT, () => {
-  console.log(`Servidor rodando na porta :${env.PORT}`);
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta :${PORT}`);
 });

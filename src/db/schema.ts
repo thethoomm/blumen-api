@@ -11,7 +11,7 @@ import {
   index,
 } from "drizzle-orm/pg-core";
 
-export const plantTypes = pgTable("plant_types", {
+export const plantTypesTable = pgTable("plant_types", {
   id: serial("id").primaryKey(),
   name: varchar("name", {
     length: 100,
@@ -23,14 +23,14 @@ export const plantTypes = pgTable("plant_types", {
     .notNull(),
 });
 
-export const plantTypesRelations = relations(plantTypes, ({ many }) => ({
-  plants: many(plants),
+export const plantTypesRelations = relations(plantTypesTable, ({ many }) => ({
+  plants: many(plantsTable),
 }));
 
-export type PlantType = typeof plantTypes.$inferSelect;
-export type PlantTypeInsert = typeof plantTypes.$inferInsert;
+export type PlantType = typeof plantTypesTable.$inferSelect;
+export type PlantTypeInsert = typeof plantTypesTable.$inferInsert;
 
-export const plants = pgTable(
+export const plantsTable = pgTable(
   "plants",
   {
     id: serial("id").primaryKey(),
@@ -47,7 +47,7 @@ export const plants = pgTable(
     characteristics: text("characteristics").notNull(),
     description: text("description").notNull(),
     imageUrl: varchar("image_url").notNull(),
-    plantTypeId: integer("plant_type_id").references(() => plantTypes.id, {
+    plantTypeId: integer("plant_type_id").references(() => plantTypesTable.id, {
       onDelete: "cascade",
     }),
     createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -56,19 +56,15 @@ export const plants = pgTable(
       .$onUpdate(() => new Date())
       .notNull(),
   },
-  (table) => {
-    return {
-      plantTypeIdIndex: index("plant_type_id_index").on(table.plantTypeId),
-    };
-  }
+  (table) => [index("plant_type_id_index").on(table.plantTypeId)]
 );
 
-export const plantsRelations = relations(plants, ({ one }) => ({
-  plantType: one(plantTypes, {
-    fields: [plants.plantTypeId],
-    references: [plantTypes.id],
+export const plantsRelations = relations(plantsTable, ({ one }) => ({
+  plantType: one(plantTypesTable, {
+    fields: [plantsTable.plantTypeId],
+    references: [plantTypesTable.id],
   }),
 }));
 
-export type Plant = typeof plants.$inferSelect;
-export type PlantInsert = typeof plants.$inferInsert;
+export type Plant = typeof plantsTable.$inferSelect;
+export type PlantInsert = typeof plantsTable.$inferInsert;

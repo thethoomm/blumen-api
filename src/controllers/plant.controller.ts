@@ -11,7 +11,7 @@ export class PlantController {
       const data = createPlantDto.parse(req.body);
 
       await plantService.createPlant(data);
-      res.json({
+      res.status(201).json({
         message: "Planta criada com sucesso",
       });
     } catch (error) {

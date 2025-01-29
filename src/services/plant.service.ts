@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { db } from "../db";
 import { Plant, PlantInsert, plantsTable } from "../db/schema";
 import { CreatePlantDtoType } from "../dtos/create-plant.dto";
@@ -37,7 +37,7 @@ export class PlantService implements IPlantService {
       const plants = await db
         .select()
         .from(plantsTable)
-        .orderBy(plantsTable.createdAt);
+        .orderBy(desc(plantsTable.createdAt));
 
       return plants;
     } catch (error) {

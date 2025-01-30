@@ -10,7 +10,7 @@ const PORT = env.PORT || 3000;
 app.use(express.json());
 app.use(
   cors({
-    origin: "*",
+    origin: "http://thom-blumen.s3-website.us-east-2.amazonaws.com/",
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
